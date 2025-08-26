@@ -1,0 +1,16 @@
+- op: replace
+  path: /metadata/name
+  value: front-allow-from-ingress
+- op: replace
+  path: /spec
+  value:
+    podSelector: { matchLabels: { app: front } }
+    policyTypes: [Ingress]
+    ingress:
+      - from:
+          - namespaceSelector:
+              matchLabels:
+                kubernetes.io/metadata.name: ingress-nginx
+        ports:
+          - protocol: TCP
+            port: 80

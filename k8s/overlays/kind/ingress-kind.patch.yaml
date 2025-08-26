@@ -1,0 +1,10 @@
+- op: replace
+  path: /metadata/annotations
+  value:
+    kubernetes.io/ingress.class: nginx
+- op: replace
+  path: /spec/rules/0/host
+  value: rhorizon.localtest.me
+- op: add
+  path: /spec/tls
+  value: []

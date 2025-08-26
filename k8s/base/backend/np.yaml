@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: back-allow-from-front
+  namespace: rhorizon
+spec:
+  podSelector: { matchLabels: { app: back } }
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector: { matchLabels: { app: front } }
+      ports:
+        - protocol: TCP
+          port: 8000

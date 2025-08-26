@@ -1,0 +1,9 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: back
+  namespace: rhorizon
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels: { app: back }

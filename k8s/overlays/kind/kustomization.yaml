@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: rhorizon
+resources:
+  - ../../base
+  - postgres-kind.yaml
+patches:
+  - path: images.patch.yaml
+  - path: secret-back.kind.yaml
+patchesJson6902:
+  - target:
+      version: networking.k8s.io/v1
+      kind: Ingress
+      name: rhorizon
+      namespace: rhorizon
+    path: ingress-kind.patch.yaml
+  - target:
+      version: networking.k8s.io/v1
+      kind: NetworkPolicy
+      name: front-allow-from-alb
+      namespace: rhorizon
+    path: np-front-kind.patch.yaml
