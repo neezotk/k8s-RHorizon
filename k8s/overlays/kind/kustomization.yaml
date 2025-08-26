@@ -3,20 +3,18 @@ kind: Kustomization
 namespace: rhorizon
 resources:
   - ../../base
-  - postgres-kind.yaml
+
+images:
+  - name: rhorizon/front
+    newName: docker.io/neezo/rhorizon-frontend
+    newTag: v1
+  - name: rhorizon/back
+    newName: docker.io/neezo/rhorizon-backend
+    newTag: v1
+
 patches:
-  - path: images.patch.yaml
-  - path: secret-back.kind.yaml
-patchesJson6902:
-  - target:
-      version: networking.k8s.io/v1
-      kind: Ingress
-      name: rhorizon
-      namespace: rhorizon
-    path: ingress-kind.patch.yaml
-  - target:
-      version: networking.k8s.io/v1
-      kind: NetworkPolicy
-      name: front-allow-from-alb
-      namespace: rhorizon
-    path: np-front-kind.patch.yaml
+  - path: secret-back.kind.yaml         # secret dev pour le back
+  - path: front-cap-netbind.patch.yaml  # autoriser non-root à écouter 80
+  - path: front-pdb.patch.yaml          # PDB adapté (maxUnavailable:1)
+  - path: front-rolling.patch.yaml      # rolling update doux
+  # - path: front-port.patch.yaml       # (décommente si front ≠ 80)

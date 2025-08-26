@@ -3,8 +3,5 @@ kind: ConfigMap
 metadata:
   name: front-config
   namespace: rhorizon
-  labels:
-    app: front
 data:
   API_BASE_URL: "http://back.rhorizon.svc.cluster.local:8000"
-  NGINX_WORKER_PROCESSES: "auto"

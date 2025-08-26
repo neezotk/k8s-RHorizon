@@ -1,40 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  name: front
-  namespace: rhorizon
-  labels:
-    app: front
+metadata: { name: front, namespace: rhorizon, labels: { app: front } }
 spec:
   replicas: 1
-  selector:
-    matchLabels: { app: front }
+  selector: { matchLabels: { app: front } }
   template:
-    metadata:
-      labels: { app: front }
+    metadata: { labels: { app: front } }
     spec:
       serviceAccountName: front-sa
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 101
-        seccompProfile: { type: RuntimeDefault }
+      securityContext: { runAsNonRoot: true, runAsUser: 101, seccompProfile: { type: RuntimeDefault } }
       containers:
         - name: front
           image: rhorizon/front:1.0.0
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 80
-          env:
-            - name: API_BASE_URL
-              valueFrom: { configMapKeyRef: { name: front-config, key: API_BASE_URL } }
-          readinessProbe:
-            httpGet: { path: /, port: 80 }
-            initialDelaySeconds: 5
-            periodSeconds: 10
-          livenessProbe:
-            httpGet: { path: /, port: 80 }
-            initialDelaySeconds: 15
-            periodSeconds: 20
-          resources:
-            requests: { cpu: "50m", memory: "128Mi" }
-            limits:   { cpu: "200m", memory: "256Mi" }
+          ports: [ { containerPort: 80 } ]
+          readinessProbe: { httpGet: { path: /, port: 80 }, initialDelaySeconds: 5, periodSeconds: 10 }
+          livenessProbe:  { httpGet: { path: /, port: 80 }, initialDelaySeconds: 15, periodSeconds: 20 }

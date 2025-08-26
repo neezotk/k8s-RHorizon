@@ -3,10 +3,5 @@ kind: ConfigMap
 metadata:
   name: back-config
   namespace: rhorizon
-  labels:
-    app: back
 data:
-  FLASK_ENV: "development"
-  LOG_LEVEL: "DEBUG"
-  APP_BASE_URL: "http://rhorizon.localtest.me"
-  CORS_ALLOWED_ORIGINS: "http://rhorizon.localtest.me"
+  LOG_LEVEL: DEBUG

@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: front, namespace: rhorizon }
+spec:
+  template:
+    spec:
+      containers:
+        - name: front
+          ports: [ { containerPort: 5173 } ]
+          readinessProbe: { httpGet: { path: /, port: 5173 } }
+          livenessProbe:  { httpGet: { path: /, port: 5173 } }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: front, namespace: rhorizon }
+spec:
+  ports: [ { port: 80, targetPort: 5173 } ]
